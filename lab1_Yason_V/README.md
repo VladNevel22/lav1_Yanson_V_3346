@@ -10,12 +10,9 @@ docker-compose up -d
 
 pip install -r requirements.txt
 
-#  Запуск FastAPI
-uvicorn app.main:app --reload
+uvicorn main:app --reload
 
-#  Запуск Celery worker
-celery -A app.celery_app worker --loglevel=info
+uvicorn main:app --reload
 
-#  Запуск Celery beat
-celery -A app.celery_app beat --loglevel=info
+
 
