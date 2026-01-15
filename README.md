@@ -4,6 +4,18 @@ FastAPI приложение для новостного портала.
 
 ## API Endpoints
 
+## Autori
+
+- `POST	/auth/register`	- Регистрация нового пользователя	
+- `POST	/auth/login`	- Вход в систему	
+- `POST	/auth/refresh`	- Обновление токенов	
+- `POST	/auth/logout`	- Выход из системы	
+- `POST	/auth/logout-all`	- Выход со всех устройств	
+- `GET	/auth/sessions`	- Мои активные сессии	
+- `GET	/auth/github/login`	- OAuth через GitHub	
+- `GET	/auth/github/callback`	- Callback для GitHub OAuth	
+- `GET	/users/me`	- С токеном + получаем данные для пользователя	
+
 ### Users
 - `POST /users/` - создать пользователя
 - `GET /users/` - список пользователей  
