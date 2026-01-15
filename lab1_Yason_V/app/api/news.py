@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from .. import schemas, crud, models
 from ..deps import get_db, get_current_user
+from ..tasks import send_news_notification
 
 router = APIRouter(prefix="/news", tags=["news"])
 
@@ -9,7 +10,11 @@ router = APIRouter(prefix="/news", tags=["news"])
 def create_news(news_in: schemas.NewsCreate, db: Session = Depends(get_db), current_user: models.User = Depends(get_current_user)):
     if not current_user.is_author:
         raise HTTPException(403, "User is not verified as author")
-    return crud.create_news(db, news_in, author_id=current_user.id)
+    news = crud.create_news(db, news_in, author_id=current_user.id)
+    
+    send_news_notification.delay(news.id)
+    
+    return news
 
 @router.get("/{news_id}", response_model=schemas.NewsRead)
 def read_news(news_id: int, db: Session = Depends(get_db)):
